@@ -1,0 +1,85 @@
+import { login, register } from "../Module/User.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { config } from "dotenv"; // env import
+// register data
+export const register_data = async (req, res) => {
+    // mongoose data
+    const { Name,
+        Collage_name,
+        Event_name,
+        Select_Course,
+        Event_type,
+        Select_year,
+        Email,
+        Contect } = req.body;
+
+    if (Name == "" || Collage_name == "" || Event_name == "" || Select_Course == "" || Event_type == "" || Select_year == "" || Email == "" || Contect == "")
+        if (Name == "" || Email == "")
+            return res.json({
+                message: "All fild are required for registration",
+                success: false
+            });
+
+    // check email is exists
+    let data = await register.findOne({ Email });
+    if (data)
+        return res.json({
+            message: "User is already exists",
+            success: false
+        });
+
+    // give data to mongoose
+    data = await register.create({
+        Name,
+        Collage_name,
+        Event_name,
+        Select_Course,
+        Event_type,
+        Select_year,
+        Email,
+        Contect
+    });
+
+    // testing
+    res.json({
+        message: "User registration successfully",
+        data,
+        success: true
+    });
+}
+
+// log in data
+
+export const login_data = async (req, res) => {
+    const { Name, Email, Password, Event_type } = req.body
+
+    if (Email == "" || Password == "" || Name == "" || Event_type == "")
+        return res.json({
+            message: 'All fild are required',
+            success: 'false'
+        });
+
+    let user = await login.findOne({ Email });
+    if (user)
+        return res.json({
+            message: 'User is exists...',
+            success: 'false'
+        });
+
+    // bcrypt password
+    const hashPassword = await bcrypt.hash(Password, 10);
+
+    // give data to mongoose
+    let user_data = new login({ Name, Event_type, Email, Password: hashPassword })
+    await user_data.save()
+
+    //token 
+    const token = jwt.sign({ data: user_data._id }, process.env.JWT);
+
+    res.json({
+        message: `Welcom ${user_data.Name} for joining ${user_data.Event_type} event`,
+        token,
+        success: 'true'
+    })
+}
