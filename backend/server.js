@@ -33,5 +33,5 @@ mongoose.connect(process.env.MONGOOSE_URL, {
     });
 
 // server port
-const port = process.env.PROT;
+const port = process.env.PORT;
 game.listen(port, () => { console.log(`Server is running in ${port}...`) });
