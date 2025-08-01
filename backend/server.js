@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGOOSE_URL, {
         console.log("MongoDB is connected with project");
     })
     .catch((er) => {
-        console.log(er.message);
+        console.log("Some error",er.message);
     });
 
 // server port

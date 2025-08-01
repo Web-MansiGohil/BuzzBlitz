@@ -5,16 +5,20 @@ import { config } from "dotenv"; // env import
 // register data
 export const register_data = async (req, res) => {
     // mongoose data
-    const { Name,
+    const { Team_name,
+        Team_id,
+        Team_member,
+        Member_one_name,
+        Member_two_name,
+        Email,
+        Contect,
         Collage_name,
+        Event_type,
         Event_name,
         Select_Course,
-        Event_type,
-        Select_year,
-        Email,
-        Contect } = req.body;
+        Select_year } = req.body;
 
-    if (Name == "" || Collage_name == "" || Event_name == "" || Select_Course == "" || Event_type == "" || Select_year == "" || Email == "" || Contect == "")
+    if (Team_name == "" || Team_member == "" || Team_id == "" || Member_one_name == "" || Member_two_name == "" || Collage_name == "" || Event_name == "" || Select_Course == "" || Event_type == "" || Select_year == "" || Email == "" || Contect == "")
         if (Name == "" || Email == "")
             return res.json({
                 message: "All fild are required for registration",
@@ -31,14 +35,18 @@ export const register_data = async (req, res) => {
 
     // give data to mongoose
     data = await register.create({
-        Name,
+        Team_name,
+        Team_id,
+        Team_member,
+        Member_one_name,
+        Member_two_name,
+        Email,
+        Contect,
         Collage_name,
+        Event_type,
         Event_name,
         Select_Course,
-        Event_type,
         Select_year,
-        Email,
-        Contect
     });
 
     // testing
@@ -71,7 +79,7 @@ export const login_data = async (req, res) => {
     const hashPassword = await bcrypt.hash(Password, 10);
 
     // give data to mongoose
-    let user_data = new login({ Name, Event_type, Email, Password: hashPassword })
+    let user_data = new login({ Email, Password: hashPassword })
     await user_data.save()
 
     //token 
