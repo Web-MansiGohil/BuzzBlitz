@@ -29,9 +29,9 @@ mongoose.connect(process.env.MONGOOSE_URL, {
         console.log("MongoDB is connected with project");
     })
     .catch((er) => {
-        console.log("Some error",er.message);
+        console.log("Some error", er.message);
     });
 
 // server port
-const port = process.env.PORT; 
+const port = process.env.PORT;
 game.listen(port, () => { console.log(`Server is running in ${port}...`) });

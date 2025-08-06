@@ -27,9 +27,9 @@ export const register_data = async (req, res) => {
 
     // check email is exists
     let data = await register.findOne({ Email });
-    if (data)
+    if (!data)
         return res.json({
-            message: "User is already exists",
+            message: "User is not  exists",
             success: false
         });
 
@@ -39,13 +39,14 @@ export const register_data = async (req, res) => {
             Team_id,
             Team_member,
             Member_one_name,
-            Email,
+            Email: login_data.Email,
             Contect,
             Collage_name,
             Event_type,
             Event_name,
             Select_Course,
             Select_year,
+            userID: req.user
         });
     }
     else {
@@ -62,6 +63,7 @@ export const register_data = async (req, res) => {
             Event_name,
             Select_Course,
             Select_year,
+            userID: req.user
         });
     }
     // give data to mongoose
@@ -74,12 +76,15 @@ export const register_data = async (req, res) => {
     });
 }
 
+
+
+
 // log in data
 
 export const login_data = async (req, res) => {
     const { Email, Password } = req.body
 
-    if (Email == "" || Password == "" || Name == "" || Event_type == "")
+    if (Email == "" || Password == "")
         return res.json({
             message: 'All fild are required',
             success: 'false'
