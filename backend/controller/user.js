@@ -1,4 +1,4 @@
-import { login, register } from "../Module/User.js";
+import { login, register } from "../Model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv"; // env import
@@ -33,21 +33,38 @@ export const register_data = async (req, res) => {
             success: false
         });
 
+    if (data.Team_member == 1) {
+        data = await register.create({
+            Team_name,
+            Team_id,
+            Team_member,
+            Member_one_name,
+            Email,
+            Contect,
+            Collage_name,
+            Event_type,
+            Event_name,
+            Select_Course,
+            Select_year,
+        });
+    }
+    else {
+        data = await register.create({
+            Team_name,
+            Team_id,
+            Team_member,
+            Member_one_name,
+            Member_two_name,
+            Email,
+            Contect,
+            Collage_name,
+            Event_type,
+            Event_name,
+            Select_Course,
+            Select_year,
+        });
+    }
     // give data to mongoose
-    data = await register.create({
-        Team_name,
-        Team_id,
-        Team_member,
-        Member_one_name,
-        Member_two_name,
-        Email,
-        Contect,
-        Collage_name,
-        Event_type,
-        Event_name,
-        Select_Course,
-        Select_year,
-    });
 
     // testing
     res.json({
@@ -60,7 +77,7 @@ export const register_data = async (req, res) => {
 // log in data
 
 export const login_data = async (req, res) => {
-    const { Name, Email, Password, Event_type } = req.body
+    const { Email, Password } = req.body
 
     if (Email == "" || Password == "" || Name == "" || Event_type == "")
         return res.json({
