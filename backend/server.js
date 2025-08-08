@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userdata from "./Router/user.js"; //import router 
+import eventInfo from "./Router/event.js"; //import event router
 import bodyParser from "express"; // json format
 import { config } from "dotenv"; // env import
 
@@ -10,16 +11,21 @@ const game = express();
 game.get("/", (req, res) => {
     res.json({
         message: "For testing connection"
-    })
+    });
 });
 // env path
 config({ path: ".env" });
 
-// print data to json format
-game.use(bodyParser.json());
+// middleware
+game.use(express.json());
 
-//router
+game.use(express.urlencoded({ extended: true }));
+
+//user router
 game.use("/api/user", userdata);
+
+// event router
+game.use("/api/event", eventInfo);
 
 // mongodb connection
 mongoose.connect(process.env.MONGOOSE_URL, {

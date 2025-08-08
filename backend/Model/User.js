@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 // registration model
 const userSchema = new mongoose.Schema({
+    Team_id: { type: Number },
     Team_name: { type: String, required: true },
-    Team_id: { type: String, required: true },
     Team_member: { type: Number },
     Member_one_name: { type: String },
     Member_two_name: { type: String },

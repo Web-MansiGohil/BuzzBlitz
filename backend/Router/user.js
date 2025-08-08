@@ -1,6 +1,5 @@
 import express from 'express';
 import { login_data, register_data } from '../controller/user.js';
-import { isUserAuth } from '../Middleware/isAuth.js';
 
 export const router = express.Router();
 
@@ -8,7 +7,7 @@ export const router = express.Router();
 // @api des : user registration 
 // @api method : post
 // @api endpoint : /api/user/register
-router.post("/register", isUserAuth, register_data);
+router.post("/register", register_data);
 
 //log in  
 // @api des : user log in 
