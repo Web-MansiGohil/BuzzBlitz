@@ -1,4 +1,4 @@
-import mongoose, { skipMiddlewareFunction } from 'mongoose';
+import mongoose from 'mongoose';
 
 const eventSchema = new mongoose.Schema({
     Event_id: { type: String, required: true, unique: true },
@@ -9,7 +9,7 @@ const eventSchema = new mongoose.Schema({
     Date: { type: String, required: true },
     Description: { type: String, required: true },
     How_it_works: { type: String },
-    Skill_Developed: {type:String},
+    Skill_Developed: { type: String },
     GamePlay: { type: String },
     How_to_play: { type: String, required: true },
     Rules_regulations: { type: String, required: true },

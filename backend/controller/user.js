@@ -7,12 +7,11 @@ config({ path: ".env" }); // env path
 // register data
 export const register_data = async (req, res) => {
     try {
-
         // mongoose data
-        const { reg_id, Team_name, Team_member, Member_one_name, Member_two_name, Email, Contect_no, Collage_name, Event_id, Event_type, Event_name, Field, Year, Payment } = req.body;
+        const { reg_id, Team_name, Team_member, Member_one_name, Member_two_name, Email, Contect_no, Collage_name, Event_id, Event_type, Event_name, Field, Year, Payment, roles } = req.body;
 
 
-        if (reg_id == "", Team_name == "" || Team_member == "" || Member_one_name == "" || Collage_name == "" || Event_name == "" || Payment == "" || Event_type == "" || Field == "" || Email == "" || Contect_no == "" || Year == "")
+        if (reg_id == "", Team_name == "" || Team_member == "" || Member_one_name == "" || Collage_name == "" || Event_name == "" || Payment == "" || Event_type == "" || Field == "" || Email == "" || Contect_no == "" || Year == "" || roles == "")
             return res.json({
                 message: "All fild are required for registration",
                 success: false
@@ -41,7 +40,8 @@ export const register_data = async (req, res) => {
             Event_name,
             Field,
             Year,
-            Payment
+            Payment,
+            roles
         }
 
         if (reg_data.Team_member == 1) {

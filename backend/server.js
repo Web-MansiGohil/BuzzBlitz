@@ -9,6 +9,7 @@ import eventInfo from "./Router/event.js"; //import event router
 import bodyParser from "express"; // json format
 import { config } from "dotenv"; // env import
 import judgeRouter from './Router/judge.js';
+import Admin_router from "./Router/admin_login.js"
 import { v2 as cloudinary } from 'cloudinary';
 
 const game = express();
@@ -36,6 +37,9 @@ game.use("/api/event", eventInfo);
 
 // judge router
 game.use("/api", judgeRouter);
+
+//admin router
+game.use("/api/admin", Admin_router);
 
 // cloudinary images
 

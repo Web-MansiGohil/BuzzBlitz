@@ -6,7 +6,7 @@ export const isAuth = async (req, res, next) => {
     if (!token) {
         return res.status(400).json({
             message: 'Log in Fisrt',
-            success: 'false'
+            success: false
         });
     }
 
@@ -16,7 +16,7 @@ export const isAuth = async (req, res, next) => {
     if (!id) {
         return res.status(400).json({
             message: 'User is not exist',
-            success: 'false'
+            success: false
         });
     }
 
