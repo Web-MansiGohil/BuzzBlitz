@@ -3,67 +3,133 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv"; // env import
 config({ path: ".env" }); // env path
+
 // register data
 export const register_data = async (req, res) => {
-    // mongoose data
-    const { Email, Contect, Collage_name,
-        Event_type, Event_name, Select_Course, Select_year } = req.body;
+    try {
 
-    if (Team_name == "" || Team_member == "" || Team_id == "" || Member_one_name == "" || Member_two_name == "" || Collage_name == "" || Event_name == "" || Select_Course == "" || Event_type == "" || Select_year == "" || Email == "" || Contect == "")
-        return res.json({
-            message: "All fild are required for registration",
+        // mongoose data
+        const { reg_id, Team_name, Team_member, Member_one_name, Member_two_name, Email, Contect_no, Collage_name, Event_id, Event_type, Event_name, Field, Year, Payment } = req.body;
+
+
+        if (reg_id == "", Team_name == "" || Team_member == "" || Member_one_name == "" || Collage_name == "" || Event_name == "" || Payment == "" || Event_type == "" || Field == "" || Email == "" || Contect_no == "" || Year == "")
+            return res.json({
+                message: "All fild are required for registration",
+                success: false
+            });
+
+
+        // check email is exists
+        let data = await register.find({ Email });
+        if (data)
+            return res.json({
+                message: "User is exists",
+                success: false
+            });
+
+        let reg_data = {
+            reg_id,
+            Team_name,
+            Team_member,
+            Member_one_name,
+            Member_two_name,
+            Email,
+            Contect_no,
+            Collage_name,
+            Event_id,
+            Event_type,
+            Event_name,
+            Field,
+            Year,
+            Payment
+        }
+
+        if (reg_data.Team_member == 1) {
+            reg_data.Member_two_name = false; // if team member is 1 then member two name is not required
+        }
+        else if (reg_data.Team_member == 2) {
+            if (reg_data.Member_two_name == "")
+                return res.status(400).json({
+                    message: 'Team member 2 is required.',
+                    success: false
+                });
+        }
+
+        // create new user
+        data = await register.create(reg_data);
+
+        // give data to mongoose
+        res.json({
+            message: "User registration successfully",
+            data_info: data,
+            success: true
+        });
+    } catch (error) {
+        console.error("Error in register_data:", error);
+        res.status(500).json({
+            message: "Internal server error",
             success: false
         });
-
-    // check email is exists
-    let data = await register.findOne({ Email });
-    if (!data)
-        return res.json({
-            message: "User is not  exists",
-            success: false
-        });
-
-    // if (data.Team_member == 1) {
-    data = await register.create({
-
-        Email: login_data.Email,
-        Contect,
-        Collage_name,
-        Event_type,
-        Event_name,
-        Select_Course,
-        Select_year
-
-    });
-    // }
-    // else {
-    //     data = await register.create({
-    //         Team_name,
-    //         Team_id,
-    //         Team_member,
-    //         Member_one_name,
-    //         Member_two_name,
-    //         Email,
-    //         Contect,
-    //         Collage_name,
-    //         Event_type,
-    //         Event_name,
-    //         Select_Course,
-    //         Select_year,
-    //         userID: req.user
-    //     });
-    // }
-    // give data to mongoose
-
-    // testing
-    res.json({
-        message: "User registration successfully",
-        data,
-        success: true
-    });
+    }
 }
 
+// get register data
+export const getRegisterData = async (req, res) => {
+    try {
+        const getData = await register.find();
+        if (!register_data) {
+            return res.status(400).json({
+                message: 'Invlaid data', success: false
+            });
+        }
 
+        return res.status(200).json({
+            message: 'Get register data successfully',
+            data: getData,
+            success: true
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Invalid data', success: false
+        })
+    }
+}
+// get register data by id
+
+export const getRegisterDataById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const getData = await register.findById(id);
+        if (!register_data) {
+            return res.status(400).json({
+                message: 'Invlaid data', success: false
+            });
+        }
+
+        return res.status(200).json({
+            message: 'Get register data by id successfully',
+            data: getData,
+            success: true
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Invalid data', success: false
+        })
+    }
+}
+
+export const getLastUserData = async (req, res) => {
+    try {
+        const newData = await register.findOne().sort({ reg_id: -1 });
+        return res.status(200).json({
+            message: 'This is current data of user',
+            data: newData,
+            success: false
+        });
+    } catch (error) {
+        return res.status(500).json({ message: 'Invalid Data', success: false });
+    }
+}
 
 
 // log in data
@@ -88,14 +154,14 @@ export const login_data = async (req, res) => {
     const hashPassword = await bcrypt.hash(Password, 10);
 
     // give data to mongoose
-    let user_data = new login({ Email, Password: hashPassword })
-    // await user_data.save()
+    user = new login({ Email, Password: hashPassword })
+    await user.save()
 
     //token 
-    const token = jwt.sign({ data: user_data._id }, process.env.JWT);
+    const token = jwt.sign({ data: user._id }, process.env.JWT);
 
     res.json({
-        message: `Welcom ${user_data.Name} for joining ${user_data.Event_type} event`,
+        message: `Welcome for joining event`,
         token,
         success: 'true'
     })

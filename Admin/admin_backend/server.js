@@ -26,5 +26,5 @@ mongoose.connect("mongodb+srv://eventhub499:HkhXy1bjnVqOASCy@cluster0.izeuvu5.mo
 })
 
 //Port
-const port = 8080;
+const port = 8000;
 admin.listen(port, () => { console.log(`Server is running on port ${port}`) });

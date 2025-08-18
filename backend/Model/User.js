@@ -2,20 +2,22 @@ import mongoose from 'mongoose';
 
 // registration model
 const userSchema = new mongoose.Schema({
-    Team_id: { type: Number },
+    reg_id: { type: Number, required: true, unique: true },
     Team_name: { type: String, required: true },
-    Team_member: { type: Number },
-    Member_one_name: { type: String },
+    Team_member: { type: Number, required: true },
+    Member_one_name: { type: String, required: true },
     Member_two_name: { type: String },
-    Email: { type: String },
-    Contect: { type: String },
-    Collage_name: { type: String },
-    Event_type: { type: String },
-    Event_name: { type: String },
-    Select_Course: { type: String },
-    Select_year: { type: String },
+    Email: { type: String, required: true },
+    Contect_no: { type: String, required: true },
+    Collage_name: { type: String, required: true },
+    Event_id: { type: String, required: true },
+    Event_type: { type: String, required: true },
+    Event_name: { type: String, required: true },
+    Field: { type: String, required: true },
+    Year: { type: String, required: true },
+    Payment: { type: String, default: "300" },
+    roles: { type: String, enum: ["user", "admin"], default: "user" },
     CreateAt: { type: Date, default: Date.now },
-    userID: { type: String }
 });
 
 export const register = mongoose.model("register", userSchema);
