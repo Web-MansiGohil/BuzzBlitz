@@ -11,6 +11,8 @@ import { config } from "dotenv"; // env import
 import judgeRouter from './Router/judge.js';
 import Admin_router from "./Router/admin_login.js"
 import { v2 as cloudinary } from 'cloudinary';
+import { isAuth } from './Middleware/isAuth.js';
+import Schedule_router from "./Router/schedule.js";
 
 const game = express();
 
@@ -41,9 +43,10 @@ game.use("/api", judgeRouter);
 //admin router
 game.use("/api/admin", Admin_router);
 
+//schedule router
+game.use("/api/schedule", isAuth, Schedule_router);
+
 // cloudinary images
-
-
 //  Configure Cloudinary
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);

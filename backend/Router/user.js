@@ -9,14 +9,14 @@ export const router = express.Router();
 // @api des : user registration 
 // @api method : post
 // @api endpoint : /api/user/register
-router.post("/register",isAuth, register_data);
+router.post("/register", isAuth, register_data);
 
 //register data
 // @api des : get user registration data 
 // @api method : get
 // @api endpoint : /api/user/register
 router.get("/register/", getRegisterData);
-        
+
 //register data
 // @api des : get user registration data 
 // @api method : get
@@ -33,6 +33,6 @@ router.get("/register/last", getLastUserData);
 // @api des : user log in 
 // @api method : post
 // @api endpoint : /api/user/login
-router.post("/login",isAuth, login_data);
+router.post("/login", login_data);
 
 export default router;

@@ -3,10 +3,10 @@ import { Event } from "../Model/Event.js";
 export const newEvent = async (req, res) => {
     try {
         const { Event_id, Event_name, Event_type, Start_time, End_time, Date, How_it_works,
-            Skills_developed, GamePlay, How_to_play, Description, photo_path, Name, Designation, event_image1, event_image2, Rules_regulations, Location } = req.body
+            Skills_developed, GamePlay, How_to_play, Description, photo_path, Name, Designation, event_image1, event_image2, Rules_regulations, Location,user } = req.body
 
         if (!Event_id || !Event_name || !Event_type || !Start_time || !End_time || !Date || !How_it_works ||
-            !Skills_developed || !GamePlay || !How_to_play || !Description || !photo_path || !Name || !Designation || !event_image1 || !event_image2 || !Rules_regulations || !Location) {
+             !How_to_play || !Description || !photo_path || !Name || !Designation || !event_image1 || !event_image2 || !Rules_regulations || !Location) {
             return res.status(404).json({
                 message: "All fields are required",
                 success: false
@@ -38,7 +38,8 @@ export const newEvent = async (req, res) => {
             Designation,
             event_image1,
             event_image2,
-            Location
+            Location,
+            user: req.user // assign user id from auth middleware
         });
         return res.status(200).json({
             message: 'Event Add successfullt..!',
@@ -50,7 +51,7 @@ export const newEvent = async (req, res) => {
         return res.status(400).json({
             message: 'Some Error',
             error: error.message,
-            success: 'false'
+            success: false
         });
     }
 }

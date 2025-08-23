@@ -4,7 +4,7 @@ import { judges } from "../Model/Judges.js";
 export const judge_data = async (req, res) => {
     try {
 
-        const { judges_id, photo_path, Name, Email, Contect_no, Manage_event, Designation, Schedule_day } = req.body
+        const { judges_id, photo_path, Name, Email, Contect_no, Manage_event, Designation, Schedule_day,user } = req.body
 
         const judge_id = Math.floor(Math.random() * 100000);
 
@@ -23,7 +23,8 @@ export const judge_data = async (req, res) => {
             Contect_no,
             Manage_event,
             Designation,
-            Schedule_day
+            Schedule_day,
+            user: req.user, // assign user id from auth middleware
         });
 
         return res.status(200).json({

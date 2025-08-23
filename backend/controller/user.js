@@ -8,7 +8,7 @@ config({ path: ".env" }); // env path
 export const register_data = async (req, res) => {
     try {
         // mongoose data
-        const { reg_id, Team_name, Team_member, Member_one_name, Member_two_name, Email, Contect_no, Collage_name, Event_id, Event_type, Event_name, Field, Year, Payment, roles } = req.body;
+        const { reg_id, Team_name, Team_member, Member_one_name, Member_two_name, Email, Contect_no, Collage_name, Event_id, Event_type, Event_name, Field, Year, Payment, roles, user } = req.body;
 
 
         if (reg_id == "", Team_name == "" || Team_member == "" || Member_one_name == "" || Collage_name == "" || Event_name == "" || Payment == "" || Event_type == "" || Field == "" || Email == "" || Contect_no == "" || Year == "" || roles == "")
@@ -20,9 +20,9 @@ export const register_data = async (req, res) => {
 
         // check email is exists
         let data = await register.find({ Email });
-        if (data)
+        if (!data)
             return res.json({
-                message: "User is exists",
+                message: "User is not exists",
                 success: false
             });
 
@@ -41,7 +41,8 @@ export const register_data = async (req, res) => {
             Field,
             Year,
             Payment,
-            roles
+            roles,
+            user: req.user, // assign user id from auth middleware
         }
 
         if (reg_data.Team_member == 1) {
@@ -147,7 +148,7 @@ export const login_data = async (req, res) => {
     if (user)
         return res.json({
             message: 'User is exists...',
-            success: 'false'
+            success: false
         });
 
     // bcrypt password
@@ -158,7 +159,7 @@ export const login_data = async (req, res) => {
     await user.save()
 
     //token 
-    const token = jwt.sign({ data: user._id }, process.env.JWT);
+    const token = jwt.sign({ userId: user._id }, process.env.JWT, { expiresIn: '1d' });
 
     res.json({
         message: `Welcome for joining event`,

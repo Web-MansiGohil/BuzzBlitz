@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     Year: { type: String, required: true },
     Payment: { type: String, default: "300" },
     roles: { type: String, enum: ["user", "admin"], default: "user" },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'login', required: true },
     CreateAt: { type: Date, default: Date.now },
 });
 
@@ -24,9 +25,10 @@ export const register = mongoose.model("register", userSchema);
 
 // login model
 const userLogin = new mongoose.Schema({
-    Email: { type: String },
-    Password: { type: String },
-    CreateAt: { type: Date, default: Date.now }
+    admin_id:{type: String, required: true, unique: true},
+    username: { type: String, required: true, unique: true },
+    Email: { type: String, required: true},
+    Password: { type: String, required: true }
 });
 
 export const login = mongoose.model("logIn", userLogin);
