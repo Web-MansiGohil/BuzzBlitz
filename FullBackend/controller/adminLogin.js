@@ -33,7 +33,7 @@ export const adminData = async (req, res) => {
         return res.status(500).json({
             message: 'There is some error in programm',
             error_message: error.message,
-            success: 'false'
+            success: false
         });
     }
 }

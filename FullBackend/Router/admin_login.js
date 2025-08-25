@@ -8,7 +8,7 @@ export const router = express.Router();
 // @api des : Admin login
 // @api method : POST
 // @api : /api/admin/login
-router.post('/login', adminData);
+router.post('/login', isAuth, adminData);
 
 // Admin login route
 // @api des : Admin add user data

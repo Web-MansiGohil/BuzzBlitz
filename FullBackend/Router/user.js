@@ -9,7 +9,7 @@ export const router = express.Router();
 // @api des : user registration 
 // @api method : post
 // @api endpoint : /api/user/register
-router.post("/register", register_data);
+router.post("/register", isAuth, register_data);
 
 //register data
 // @api des : get user registration data 

@@ -25,9 +25,7 @@ export const register = mongoose.model("register", userSchema);
 
 // login model
 const userLogin = new mongoose.Schema({
-    admin_id:{type: String, required: true, unique: true},
-    username: { type: String, required: true, unique: true },
-    Email: { type: String, required: true},
+    Email: { type: String, required: true },
     Password: { type: String, required: true }
 });
 

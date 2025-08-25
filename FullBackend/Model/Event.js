@@ -19,7 +19,6 @@ const eventSchema = new mongoose.Schema({
     event_image1: { type: String, required: true },
     event_image2: { type: String, required: true },
     Location: { type: String, required: true },
-    userId : {type:String},
     created_at: { type: Date, default: Date.now },
 });
 

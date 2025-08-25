@@ -1,6 +1,5 @@
 import express from 'express';
-import { scheduleData } from '../controller/shcedule.js';
-import { isAuth } from '../Middleware/isAuth.js';
+import { getAllScheduleData, scheduleData } from '../controller/shcedule.js';
 
 export const router = express.Router();
 
@@ -8,6 +7,12 @@ export const router = express.Router();
 //@api methos: POST
 //@api des : schedule
 //@api url : /api/schedule/
-router.post("/", isAuth, scheduleData);
+router.post("/", scheduleData);
+
+//@api
+//@api methos: GET
+//@api des : ALL schedule
+//@api url : /api/schedule/all
+router.get("/all", getAllScheduleData);
 
 export default router;

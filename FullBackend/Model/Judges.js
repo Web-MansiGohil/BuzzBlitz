@@ -10,8 +10,7 @@ const judgesSchema = new mongoose.Schema({
     Contect_no: { type: String, required: true },
     Designation: { type: String, required: true },
     Schedule_day: { type: String, required: true },
-    userId : {type:String},
     Created_at: { type: Date, default: Date.now }
 });
 
-export const judges = mongoose.model('Judges', judgesSchema);
+export const Judges = mongoose.model('Judges', judgesSchema);

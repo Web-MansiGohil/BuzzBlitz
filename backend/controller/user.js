@@ -58,11 +58,17 @@ export const register_data = async (req, res) => {
 
         // create new user
         data = await register.create(reg_data);
+        await data.save();
+
+        // live counting
+        const count = await register.countDocuments();
+        broadcastCount(count);
 
         // give data to mongoose
         res.json({
             message: "User registration successfully",
             data_info: data,
+            totalCount: count,
             success: true
         });
     } catch (error) {

@@ -6,13 +6,13 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import userdata from "./Router/user.js"; //import router 
 import eventInfo from "./Router/event.js"; //import event router
-import bodyParser from "express"; // json format
 import { config } from "dotenv"; // env import
 import judgeRouter from './Router/judge.js';
 import Admin_router from "./Router/admin_login.js"
 import { v2 as cloudinary } from 'cloudinary';
-import { isAuth } from './Middleware/isAuth.js';
 import Schedule_router from "./Router/schedule.js";
+import { WebSocketServer } from 'ws';
+import { register } from "./Model/User.js";
 
 const game = express();
 
@@ -38,13 +38,13 @@ game.use("/api/user", userdata);
 game.use("/api/event", eventInfo);
 
 // judge router
-game.use("/api", judgeRouter);
+game.use("/api/judges", judgeRouter);
 
 //admin router
 game.use("/api/admin", Admin_router);
 
 //schedule router
-game.use("/api/schedule", isAuth, Schedule_router);
+game.use("/api/schedule", Schedule_router);
 
 // cloudinary images
 //  Configure Cloudinary
@@ -86,4 +86,21 @@ mongoose.connect(process.env.MONGOOSE_URL, {
 
 // server port
 const port = process.env.PORT;
-game.listen(port, () => { console.log(`Server is running in ${port}...`) });
+const server = game.listen(port, () => { console.log(`Server is running in ${port}...`) });
+//webscoket
+const wss = new WebSocketServer({ server });
+
+function broadcastCount(count) {
+    wss.clients.forEach(clients => {
+        if (clients.readyState === 1) {
+            clients.send(JSON.stringify({ totalCount: count }));
+        }
+    });
+}
+
+wss.on("connection", async (ws) => {
+    console.log("New client connected");
+    const count = await register.countDocuments();
+    ws.send(JSON.stringify({ type: "Count Update", totalCount: count }));
+})
+

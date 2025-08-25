@@ -9,7 +9,6 @@ export const scheduleSchema = new mongoose.Schema({
     End_time: { type: String, required: true },
     Date: { type: String, require: true },
     Location: { type: String, require: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'login', required: true },
     Create_At: { type: Date, default: Date.now }
 });
 

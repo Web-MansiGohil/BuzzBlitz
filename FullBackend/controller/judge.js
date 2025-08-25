@@ -1,4 +1,5 @@
-import { judges } from "../Model/Judges.js";
+import { Judges } from "../Model/Judges.js";
+
 
 // add new judge
 export const judge_data = async (req, res) => {
@@ -8,14 +9,14 @@ export const judge_data = async (req, res) => {
 
         const judge_id = Math.floor(Math.random() * 100000);
 
-        let data = await judges.findOne({ Email });
+        let data = await Judges.findOne({ Email });
         if (data)
             return res.status(400).json({
                 message: 'Judges is Exists...',
                 success: 'false'
             });
 
-        data = await judges.create({
+        data = await Judges.create({
             judges_id: judge_id,
             photo_path,
             Name,
@@ -45,17 +46,17 @@ export const judge_data = async (req, res) => {
 
 export const getJudges = async (req, res) => {
     try {
-        const getData = await judges.find();
-
-        if (!judge_data)
+        const getAllData = await Judges.find();
+        if (!getAllData) {
             return res.status(400).json({
-                message: 'Judge is not in lost',
+                message: 'Judge not found',
                 success: false
             });
+        }
 
         return res.status(200).json({
-            message: "Judges data is found",
-            judge_data: getData,
+            message: 'Get judge data successfully',
+            judge: getAllData,
             success: true
         });
     } catch (error) {
@@ -72,24 +73,24 @@ export const getIdJudges = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const getData = await judges.findById(id);
+        const getDataById = await Judges.findById(id);
 
-        if (!judge_data)
+        if (!getDataById)
             return res.status(400).json({
-                message: 'Judge is not in lost',
+                message: 'Judge cannot be found by id',
                 success: false
             });
 
         return res.status(200).json({
             message: "Judges data is found by id",
-            judge_data: getData,
+            judge_data: getDataById,
             success: true
         });
     } catch (error) {
         return res.status(500).json({
             message: 'Internal server error',
             error: error.message,
-            success: 'false'
+            success: false
         });
     }
 }

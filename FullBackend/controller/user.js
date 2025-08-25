@@ -58,11 +58,17 @@ export const register_data = async (req, res) => {
 
         // create new user
         data = await register.create(reg_data);
+        await data.save();
+
+        // live counting
+        const count = await register.countDocuments();
+        broadcastCount(count);
 
         // give data to mongoose
         res.json({
             message: "User registration successfully",
             data_info: data,
+            totalCount: count,
             success: true
         });
     } catch (error) {
@@ -159,7 +165,7 @@ export const login_data = async (req, res) => {
     await user.save()
 
     //token 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT);
+    const token = jwt.sign({ userId: user._id }, process.env.JWT, { expiresIn: '1d' });
 
     res.json({
         message: `Welcome for joining event`,
