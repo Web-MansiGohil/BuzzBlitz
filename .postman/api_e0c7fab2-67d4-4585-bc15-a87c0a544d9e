@@ -9,16 +9,13 @@ id = e0c7fab2-67d4-4585-bc15-a87c0a544d9e
 
 [config.relations.collections]
 rootDirectory = postman/collections
-files[] = {"id":"47286535-75a0c871-070d-4b48-a907-caac1b09720f","path":"New Collection.json","metaData":{}}
 
 [config.relations.collections.metaData]
 
 [config.relations.apiDefinition]
-files[] = {"path":"index.json","metaData":{}}
 files[] = {"path":"itEvent.json","metaData":{}}
 files[] = {"path":"judges.json","metaData":{}}
 files[] = {"path":"schedule.json","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
 type = openapi:3
-rootFiles[] = index.json
