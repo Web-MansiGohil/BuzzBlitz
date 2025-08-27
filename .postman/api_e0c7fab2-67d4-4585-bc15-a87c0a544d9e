@@ -17,6 +17,8 @@ files[] = {"id":"47286535-75a0c871-070d-4b48-a907-caac1b09720f","path":"New Coll
 files[] = {"path":"index.json","metaData":{}}
 files[] = {"path":"itEvent.json","metaData":{}}
 files[] = {"path":"judges.json","metaData":{}}
+files[] = {"path":"schedule.json","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
 type = openapi:3
+rootFiles[] = index.json
